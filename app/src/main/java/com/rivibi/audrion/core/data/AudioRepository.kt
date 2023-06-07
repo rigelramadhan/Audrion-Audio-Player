@@ -11,7 +11,8 @@ import javax.inject.Inject
 class AudioRepository @Inject constructor(
     private val localDataSource: LocalDataSource
 ) : IAudioRepository {
-    override fun getAudioList(): Flow<List<Audio>> {
-        return localDataSource.getAllAudioFiles().map { DataMapper.MapAudioEntityToDomain(it) }
+    override fun getAudioList(): Flow<Resource<List<Audio>>> {
+        return localDataSource.getAllAudioFiles()
+            .map { Resource.Success(DataMapper.MapAudioEntityToDomain(it)) }
     }
 }
